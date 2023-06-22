@@ -30,10 +30,6 @@ public class Main {
 		vagoesDesembarcadosPorComposicao.put(1, new HashMap<>());
 		vagoesDesembarcadosPorComposicao.put(2, new HashMap<>());
 
-		Composicao composicao = new Composicao(0);
-		
-		
-
 		Scanner scanner = new Scanner(System.in);
 
 		while (true) {
@@ -61,8 +57,8 @@ public class Main {
 				defTerminal(scanner);
 				break;
 			case 7:
-				commodities();
-				return;
+				System.out.println("Cargas desembarcadas: " + commodities());
+				break;
 			case 8:
 				System.out.println("Encerrando o programa.");
 				return;
@@ -79,7 +75,7 @@ public class Main {
 
 		// Criar vagoes de A a M
 		for (char c = 'A'; c <= 'M'; c++) {
-			composicao.adicionarVagao(new Vagao(String.valueOf(c)));
+			composicao.adicionarVagao(new Vagao(String.valueOf(c).toLowerCase()));
 		}
 
 		return composicao;
@@ -102,7 +98,7 @@ public class Main {
 
 		System.out.println("Digite o número da composição (1 ou 2): ");
 		int numeroComposicao = scanner.nextInt();
-		scanner.nextLine(); // Limpar o buffer
+		scanner.nextLine();
 
 		Composicao composicao;
 
@@ -117,7 +113,7 @@ public class Main {
 			return;
 		}
 		if (!composicao.isNoTerminal()) {
-			System.out.println("Operação de desembarcar carga permitida apenas no terminal.");
+			System.out.println("Operação de embarcar carga permitida apenas no terminal.");
 			return;
 		}
 
@@ -127,9 +123,9 @@ public class Main {
 		}
 
 		System.out.println("Digite o identificador do vagão (A a M): ");
-		String identificador = scanner.nextLine();
+		String identificador = scanner.nextLine().toLowerCase();
 
-		if (identificador.length() != 1 || identificador.charAt(0) < 'A' || identificador.charAt(0) > 'M') {
+		if (identificador.length() != 1 || identificador.charAt(0) < 'a' || identificador.charAt(0) > 'm') {
 			System.out.println("Identificador inválido.");
 			return;
 		}
@@ -137,31 +133,37 @@ public class Main {
 		if(composicao==composicao1) {
 			System.out.println("Digite o conteúdo da carga: ");
 			String conteudo = scanner.nextLine();
+			boolean Valido = false;
 			for(int i = 0; i < conteudosPossiveisEnvioR1.length; i++) {
 				if(conteudo.equals(conteudosPossiveisEnvioR1[i])) {
+					Valido = true;
 					System.out.println("Digite a quantidade (em kg) da carga: ");
 					int quantidade = scanner.nextInt();
 					scanner.nextLine(); // Limpar o buffer
 
 					composicao.adicionarCarga(identificador, conteudo, quantidade);
-				}else
-					System.out.println("Conteudo Invalido");
-			}
+					break;
+				}
+			}if(!Valido)
+				System.out.println("Conteudo Invalido");
 		}
 
 		if(composicao==composicao2) {
 			System.out.println("Digite o conteúdo da carga: ");
 			String conteudo = scanner.nextLine();
+			boolean Valido = false;
 			for(int i = 0; i < conteudosPossiveisEnvioR2.length; i++) {
 				if(conteudo.equals(conteudosPossiveisEnvioR2[i])) {
+					Valido = true;
 					System.out.println("Digite a quantidade (em kg) da carga: ");
 					int quantidade = scanner.nextInt();
 					scanner.nextLine(); // Limpar o buffer
 
 					composicao.adicionarCarga(identificador, conteudo, quantidade);
-				}else
-					System.out.println("Conteudo Invalido");
-			}
+					break;
+				}
+			}if(!Valido)
+				System.out.println("Conteudo Invalido");
 		}
 
 	}
@@ -193,15 +195,17 @@ public class Main {
 		}
 
 		System.out.println("Digite o identificador do vagão (A a M): ");
-		String identificador = scanner.nextLine();
+		String identificador = scanner.nextLine().toLowerCase();
 
-		if (identificador.length() != 1 || identificador.charAt(0) < 'A' || identificador.charAt(0) > 'M') {
+		if (identificador.length() != 1 || identificador.charAt(0) < 'a' || identificador.charAt(0) > 'm') {
 			System.out.println("Identificador inválido.");
 			return;
 		}
 
 		String desembarcada = composicao.desembarcarCarga(identificador, numeroComposicao);
 		desembarcados.add(desembarcada);		
+		
+		commodities();
 
 	}
 
@@ -218,7 +222,7 @@ public class Main {
 		Stack<Vagao> vagoes = composicao.getVagoes();
 
 		for (Vagao vagao : vagoes) {
-			System.out.print(vagao.getNome() + " - ");
+			System.out.print(vagao.getNome().toUpperCase() + " - ");
 			if (vagao.isVazio()) {
 				System.out.println("Vazio");
 			} else {
@@ -243,7 +247,7 @@ public class Main {
 		Composicao composicaoTerminal = numComposicaoTerminal == 1 ? composicao1 : composicao2;
 
 		composicaoTerminal.setEmMovimento(true);
-		System.out.println("A composição "+numComposicaoTerminal+" ja saiu");
+		System.out.println("A composição "+numComposicaoTerminal+" está a caminho do terminal!");
 
 		Thread contadorThread = new Thread(() -> {
 			for (int i = 10; i > 0; i--) {
@@ -274,7 +278,7 @@ public class Main {
 
 		composicaoInterconexao.setEmMovimento(true);
 
-		System.out.println("A composição "+numComposicaoInterconexao+" ja saiu");
+		System.out.println("A composição "+numComposicaoInterconexao+" está a caminho do ponto interconexão!");
 
 		Thread contadorThread = new Thread(() -> {
 			for (int i = 10; i > 0; i--) {
@@ -312,18 +316,24 @@ public class Main {
 			Thread viagem2Thread = new Thread(() -> composicao.viagemComposicao2());
 			viagem2Thread.start();
 		}
+		scanner1.close();
 	}
 
 	public static String commodities(){
 		String resposta = "";
-		Iterator<String> it = desembarcados.iterator();
-		while(it.hasNext()) {
-			String carga = it.next();
-			resposta += carga + ", ";
+		if(!desembarcados.isEmpty()) {
+			Iterator<String> it = desembarcados.iterator();
+			while(it.hasNext()) {
+				String carga = it.next();
+				resposta += carga + ", ";
+			}
+	
+		} else {
+			resposta = "Nao ha cargas disponiveis.";
 		}
-		
+
 		return resposta;
-		
+
 	}
 
 }
