@@ -270,8 +270,6 @@ public class Main implements Serializable {
 		}
 
 		contadorThread.start();
-
-
 	}
 
 	private static void defPonto(Scanner scanner) {
@@ -301,23 +299,6 @@ public class Main implements Serializable {
 		}
 
 		contadorThread.start();
-	}
-
-	public static void iniciarViagem(Scanner scanner, Composicao composicao) {
-		System.out.println("Digite o número da composição (1 ou 2)");
-		Scanner scanner1 = new Scanner(System.in);
-		int numComposicao = scanner1.nextInt();
-
-		if (numComposicao == 1) {
-			System.out.println("Viagem da composição 1 iniciada.");
-			Thread viagem1Thread = new Thread(() -> composicao.viagemComposicao1());
-			viagem1Thread.start();
-		} else if (numComposicao == 2) {
-			System.out.println("Viagem da composição 2 iniciada.");
-			Thread viagem2Thread = new Thread(() -> composicao.viagemComposicao2());
-			viagem2Thread.start();
-		}
-		scanner1.close();
 	}
 
 	public static String commodities(){
