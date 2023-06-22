@@ -1,24 +1,13 @@
 package testeProjeto;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
 
 public class Vagao implements Serializable {
-	private String nome;
+    private String nome;
     private boolean disponivel;
     private String carga;
     private int quantidade;
-    
-    public static final String[] conteudosPossiveisEnvioR1 = {"cobre", "ferro", "magnesita", "niquel", "níquel"};
-    public static final String[] conteudosPossiveisEnvioR2 = {"amendoim", "feijao", "feijão", "milho", "soja", "trigo"};
-    
-    public static final String[] conteudosPossiveisRecebeR1 = {"amendoim", "feijao", "feijão", "milho", "soja", "trigo"};
-    public static final String[] conteudosPossiveisRecebeR2 = {"cobre", "ferro", "magnesita", "niquel", "níquel"};
-
+ 
     public Vagao(String nome) {
         this.nome = nome;
         this.disponivel = true;
