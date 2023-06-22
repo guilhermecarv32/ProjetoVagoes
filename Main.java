@@ -1,5 +1,10 @@
 package testeProjeto;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -8,24 +13,25 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Stack;
 
-
-public class Main {
+public class Main implements Serializable {
 	private static Composicao composicao1;
 	private static Composicao composicao2;
 	private static Map<Integer, Map<String, List<String>>> vagoesDesembarcadosPorComposicao;
 
-	public static final String[] conteudosPossiveisEnvioR1 = {"cobre", "ferro", "magnesita", "niquel"};
-	public static final String[] conteudosPossiveisEnvioR2 = {"amendoim", "feijao", "milho", "soja", "trigo"};
+	public static final String[] conteudosPossiveisEnvioR1 = {"cobre", "ferro", "magnesita", "niquel", "níquel"};
+	public static final String[] conteudosPossiveisEnvioR2 = {"amendoim", "feijao", "feijão", "milho", "soja", "trigo"};
 
-	public static final String[] conteudosPossiveisRecebeR1 = {"amendoim", "feijao", "milho", "soja", "trigo"};
-	public static final String[] conteudosPossiveisRecebeR2 = {"cobre", "ferro", "magnesita", "niquel"};
+	public static final String[] conteudosPossiveisRecebeR1 = {"amendoim", "feijao", "feijão", "milho", "soja", "trigo"};
+	public static final String[] conteudosPossiveisRecebeR2 = {"cobre", "ferro", "magnesita", "niquel", "níquel"};
 	
 	static List<String> desembarcados = new ArrayList<String>();
 
 	public static void main(String[] args) {
+	
 		composicao1 = criarComposicao(1);
 		composicao2 = criarComposicao(2);
 		vagoesDesembarcadosPorComposicao = new HashMap<>();
+		carregarEstado("Lista-Vagoes.bin");
 
 		vagoesDesembarcadosPorComposicao.put(1, new HashMap<>());
 		vagoesDesembarcadosPorComposicao.put(2, new HashMap<>());
@@ -61,14 +67,16 @@ public class Main {
 				break;
 			case 8:
 				System.out.println("Encerrando o programa.");
-				return;
+				System.out.println("Salvando em arquivo externo...");
+			    salvarEstado("Lista-Vagoes.bin");
+			    System.out.println("Encerrando o programa.");
+			    return;
 			default:
 				System.out.println("Opção inválida. Tente novamente.");
 				break;
 			}
 		}
 	}
-
 	
 	private static Composicao criarComposicao(int numero) {
 		Composicao composicao = new Composicao(numero);
@@ -165,9 +173,7 @@ public class Main {
 			}if(!Valido)
 				System.out.println("Conteudo Invalido");
 		}
-
 	}
-
 
 	private static void desembarcarCarga(Scanner scanner) {
 		System.out.println("Digite o número da composição (1 ou 2): ");
@@ -204,11 +210,7 @@ public class Main {
 
 		String desembarcada = composicao.desembarcarCarga(identificador, numeroComposicao);
 		desembarcados.add(desembarcada);		
-		
-		commodities();
-
 	}
-
 
 	private static void visualizarComposicoes() {
 		System.out.println("----- COMPOSIÇÃO 1 -----");
@@ -234,10 +236,14 @@ public class Main {
 	private static void transferirVagoes(Scanner scanner) {
 		System.out.print("Digite o número da primeira composição (1 ou 2): ");
 		int numComposicao1 = scanner.nextInt();
+		
 		Composicao composicao1Transferencia = numComposicao1 == 1 ? composicao1 : composicao2;
+		
 		System.out.print("Digite o número da segunda composição (1 ou 2): ");
 		int numComposicao2 = scanner.nextInt();
+		
 		Composicao composicao2Transferencia = numComposicao2 == 1 ? composicao1 : composicao2;
+		
 		composicao1Transferencia.transferirVagoes(composicao2Transferencia);
 	}
 
@@ -298,8 +304,6 @@ public class Main {
 		}
 
 		contadorThread.start();
-
-
 	}
 
 	public static void iniciarViagem(Scanner scanner, Composicao composicao) {
@@ -327,13 +331,38 @@ public class Main {
 				String carga = it.next();
 				resposta += carga + ", ";
 			}
-	
+
 		} else {
 			resposta = "Nao ha cargas disponiveis.";
 		}
-
 		return resposta;
 
 	}
-
+	
+	private static void salvarEstado(String nomeArquivo) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(nomeArquivo);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(composicao1);
+            objectOut.writeObject(composicao2);
+            objectOut.close();
+            System.out.println("Arquivo salvo com sucesso.");
+        } catch (Exception e) {
+            System.out.println("Erro ao salvar o arquivo: " + e.getMessage());
+        }
+    }
+	
+	private static void carregarEstado(String nomeArquivo) {
+	    try {
+	        FileInputStream fileIn = new FileInputStream(nomeArquivo);
+	        ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+	        composicao1 = (Composicao) objectIn.readObject();
+	        composicao2 = (Composicao) objectIn.readObject();
+	        objectIn.close();
+	        System.out.println("Dados carregados com sucesso.");
+	    } catch (Exception e) {
+	        System.out.println("Erro ao carregar os dados: " + e.getMessage());
+	    }
+	}
+	
 }
