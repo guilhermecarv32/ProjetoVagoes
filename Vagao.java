@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Vagao {
-	private String nome;
+    private String nome;
     private boolean disponivel;
     private String carga;
     private int quantidade;
