@@ -20,9 +20,6 @@ public class Main implements Serializable {
 
 	public static final String[] conteudosPossiveisEnvioR1 = {"cobre", "ferro", "magnesita", "niquel", "níquel"};
 	public static final String[] conteudosPossiveisEnvioR2 = {"amendoim", "feijao", "feijão", "milho", "soja", "trigo"};
-
-	public static final String[] conteudosPossiveisRecebeR1 = {"amendoim", "feijao", "feijão", "milho", "soja", "trigo"};
-	public static final String[] conteudosPossiveisRecebeR2 = {"cobre", "ferro", "magnesita", "niquel", "níquel"};
 	
 	static List<String> desembarcados = new ArrayList<String>();
 
