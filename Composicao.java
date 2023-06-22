@@ -1,12 +1,13 @@
 package testeProjeto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-public class Composicao {
+public class Composicao implements Serializable{
 	private int numero;
     private Stack<Vagao> vagoes;
 
@@ -14,8 +15,8 @@ public class Composicao {
     private boolean noPontoInterconexao;
     private boolean EmMovimento;
 
-    public static final String[] conteudosPossiveisRecebeR1 = {"amendoim", "feijao", "milho", "soja", "trigo"};
-	public static final String[] conteudosPossiveisRecebeR2 = {"cobre", "ferro", "magnesita", "niquel"};   
+    public static final String[] conteudosPossiveisRecebeR1 = {"amendoim", "feijao", "feijão", "milho", "soja", "trigo"};
+	public static final String[] conteudosPossiveisRecebeR2 = {"cobre", "ferro", "magnesita", "niquel", "níquel"};   
    
     public Composicao(int numero) {
         this.numero = numero;
@@ -67,42 +68,42 @@ public class Composicao {
     public String desembarcarCarga(String identificador, int composicao) {
     	String cargaD = null;
     	List<String> conteudosPermitidos = new ArrayList<String>();
-        if (composicao == 1) {
-            conteudosPermitidos = Arrays.asList(conteudosPossiveisRecebeR1);
-        } else if (composicao == 2) {
-            conteudosPermitidos = Arrays.asList(conteudosPossiveisRecebeR2);
-        } else {
-            System.out.println("Composição inválida.");
+    	if (composicao == 1) {
+    		conteudosPermitidos = Arrays.asList(conteudosPossiveisRecebeR1);
+    	} else if (composicao == 2) {
+    		conteudosPermitidos = Arrays.asList(conteudosPossiveisRecebeR2);
+    	} else {
+    		System.out.println("Composição inválida.");
 
-        }
+    	}
 
-        boolean Encontrado = false;
-        
-        for (Vagao vagao : vagoes) {
-            if (vagao.getNome().equals(identificador)) {
-            	Encontrado = true;
-                if (vagao.isVazio()) {
-                    System.out.println("Vagão '" + vagao.getNome().toUpperCase() + "' na composição " + numero + " já está vazio.");
-                } else {
-                    String carga = vagao.getCarga().toLowerCase();
-                    if (conteudosPermitidos.contains(carga)) {
-                        vagao.desembarcarCarga();
-                        System.out.println("Carga desembarcada do vagão '" + vagao.getNome().toUpperCase() + "' na composição " + numero + ".");
-                    } else {
-                        System.out.println("Não é permitido desembarcar a carga " + vagao.getCarga() +
-                                " no vagão '" + vagao.getNome().toUpperCase() + "' na composição " + numero + ".");
-                        
-                       cargaD = vagao.getCarga();
-                    }
-                }
-                
-            }            
-        }
-        if(!Encontrado)
-        	System.out.println("Vagão '" + identificador.toUpperCase() + "' não encontrado na composição " + numero + ".");
-		return cargaD;
+    	boolean Encontrado = false;
+
+    	for (Vagao vagao : vagoes) {
+    		if (vagao.getNome().equals(identificador)) {
+    			Encontrado = true;
+    			if (vagao.isVazio()) {
+    				System.out.println("Vagão '" + vagao.getNome().toUpperCase() + "' na composição " + numero + " já está vazio.");
+    			} else {
+    				String carga = vagao.getCarga().toLowerCase();
+    				if (conteudosPermitidos.contains(carga)) {
+    					vagao.desembarcarCarga();
+    					System.out.println("Carga desembarcada do vagão '" + vagao.getNome().toUpperCase() + "' na composição " + numero + ".");
+    				} else {
+    					System.out.println("Não é permitido desembarcar a carga " + vagao.getCarga() +
+    							" no vagão '" + vagao.getNome().toUpperCase() + "' na composição " + numero + ".");
+
+    					cargaD = vagao.getCarga();
+    				}
+    			}
+
+    		}            
+    	}
+    	if(!Encontrado)
+    		System.out.println("Vagão '" + identificador.toUpperCase() + "' não encontrado na composição " + numero + ".");
+    	return cargaD;
     }
-    
+
     public void transferirVagoes(Composicao outraComposicao) {
         if (noTerminal || outraComposicao.noTerminal) {
             System.out.println("Não é possível fazer a transferência de vagões no terminal.");
@@ -155,10 +156,7 @@ public class Composicao {
             System.out.println("Composição " + numero + " está no ponto de interconexão: Transferência de vagões.");
         }
     }
-    
-   
 
-    
     public void viagemComposicao1() {
         noTerminal = false;
         noPontoInterconexao = false;
@@ -204,5 +202,4 @@ public class Composicao {
             return Collections.emptyList();
         }
     }
-    
 }
