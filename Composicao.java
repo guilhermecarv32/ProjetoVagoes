@@ -45,7 +45,7 @@ public class Composicao {
     public void adicionarVagao(Vagao vagao) {
         vagoes.push(vagao);
         vagao.setDisponivel(false);
-        System.out.println("Vagão " + vagao.getNome() + " adicionado à composição " + numero + ".");
+        System.out.println("Vagão " + vagao.getNome().toUpperCase() + " adicionado à composição " + numero + ".");
     }
 
     public void adicionarCarga(String identificador, String conteudo, int quantidade) {
@@ -54,14 +54,14 @@ public class Composicao {
             if (vagao.getNome().equals(identificador)) {
             	if(vagao.isVazio()) {
                 vagao.adicionarCarga(quantidade, conteudo, quantidade);
-                System.out.println("Carga de " + quantidade + "kg de " + conteudo + " adicionada ao vagão " +
-                        vagao.getNome() + " na composição " + numero + ".");
+                System.out.println("Carga de " + quantidade + "kg de " + conteudo + " adicionada ao vagão '" +
+                        vagao.getNome().toUpperCase() + "' na composição " + numero + ".");
             	}else
             		System.out.println("Vagao já está cheio");
                 return;
             }
         }
-        System.out.println("Vagão " + identificador + " não encontrado na composição " + numero + ".");
+        System.out.println("Vagão '" + identificador.toUpperCase() + "' não encontrado na composição " + numero + ".");
     }
 
     public String desembarcarCarga(String identificador, int composicao) {
@@ -76,26 +76,30 @@ public class Composicao {
 
         }
 
+        boolean Encontrado = false;
+        
         for (Vagao vagao : vagoes) {
             if (vagao.getNome().equals(identificador)) {
+            	Encontrado = true;
                 if (vagao.isVazio()) {
-                    System.out.println("Vagão " + vagao.getNome() + " na composição " + numero + " já está vazio.");
+                    System.out.println("Vagão '" + vagao.getNome().toUpperCase() + "' na composição " + numero + " já está vazio.");
                 } else {
                     String carga = vagao.getCarga().toLowerCase();
                     if (conteudosPermitidos.contains(carga)) {
                         vagao.desembarcarCarga();
-                        System.out.println("Carga desembarcada do vagão " + vagao.getNome() + " na composição " + numero + ".");
+                        System.out.println("Carga desembarcada do vagão '" + vagao.getNome().toUpperCase() + "' na composição " + numero + ".");
                     } else {
                         System.out.println("Não é permitido desembarcar a carga " + vagao.getCarga() +
-                                " no vagão " + vagao.getNome() + " na composição " + numero + ".");
+                                " no vagão '" + vagao.getNome().toUpperCase() + "' na composição " + numero + ".");
                         
                        cargaD = vagao.getCarga();
                     }
                 }
                 
-            }
+            }            
         }
-        System.out.println("Vagão " + identificador + " não encontrado na composição " + numero + ".");
+        if(!Encontrado)
+        	System.out.println("Vagão '" + identificador.toUpperCase() + "' não encontrado na composição " + numero + ".");
 		return cargaD;
     }
     
