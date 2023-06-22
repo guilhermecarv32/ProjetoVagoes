@@ -182,14 +182,4 @@ public class Composicao implements Serializable{
 
         System.out.println("Composição 2 chegou ao Ponto de Interconexão.");
     }
-    
-    private List<String> getConteudosPossiveis(int composicao) {
-        if (composicao == 1) {
-            return Arrays.asList("amendoim", "feijao", "milho", "soja", "trigo");
-        } else if (composicao == 2) {
-            return Arrays.asList("cobre", "ferro", "magnesita", "niquel");
-        } else {
-            return Collections.emptyList();
-        }
-    }
 }
