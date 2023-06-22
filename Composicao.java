@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Stack;
 
 public class Composicao implements Serializable{
-	private int numero;
+    private int numero;
     private Stack<Vagao> vagoes;
 
     private boolean noTerminal;
@@ -16,7 +16,7 @@ public class Composicao implements Serializable{
     private boolean EmMovimento;
 
     public static final String[] conteudosPossiveisRecebeR1 = {"amendoim", "feijao", "feijão", "milho", "soja", "trigo"};
-	public static final String[] conteudosPossiveisRecebeR2 = {"cobre", "ferro", "magnesita", "niquel", "níquel"};   
+    public static final String[] conteudosPossiveisRecebeR2 = {"cobre", "ferro", "magnesita", "niquel", "níquel"};   
    
     public Composicao(int numero) {
         this.numero = numero;
@@ -25,30 +25,24 @@ public class Composicao implements Serializable{
         this.noPontoInterconexao = false;
         this.EmMovimento=false; 
     }
-
-	public int getNumero() {
+    public int getNumero() {
         return numero;
     }
     
     public boolean getEmMovimento() {
 		return EmMovimento;   	
-    }
-    
+    }    
     public void setEmMovimento(boolean EmMovimento) {
 		this.EmMovimento=EmMovimento;   	
     }
-
-
     public Stack<Vagao> getVagoes() {
         return vagoes;
     }
-
     public void adicionarVagao(Vagao vagao) {
         vagoes.push(vagao);
         vagao.setDisponivel(false);
         System.out.println("Vagão " + vagao.getNome().toUpperCase() + " adicionado à composição " + numero + ".");
     }
-
     public void adicionarCarga(String identificador, String conteudo, int quantidade) {
         for (Vagao vagao : vagoes){
         	
@@ -76,7 +70,6 @@ public class Composicao implements Serializable{
     		System.out.println("Composição inválida.");
 
     	}
-
     	boolean Encontrado = false;
 
     	for (Vagao vagao : vagoes) {
@@ -96,7 +89,6 @@ public class Composicao implements Serializable{
     					cargaD = vagao.getCarga();
     				}
     			}
-
     		}            
     	}
     	if(!Encontrado)
@@ -132,11 +124,9 @@ public class Composicao implements Serializable{
             System.out.println("Transferência de vagões entre a composição " + numero + " e a composição " +
                     outraComposicao.numero + " realizada com sucesso.");
             return;
-        }
-
-        
+        }        
     }
-
+	
     public void setNoTerminal(boolean noTerminal) {
         this.noTerminal = noTerminal;
         if (noTerminal) {
