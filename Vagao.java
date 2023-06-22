@@ -3,7 +3,7 @@ package testeProjeto;
 import java.io.Serializable;
 
 public class Vagao implements Serializable {
-    private String nome;
+	private String nome;
     private boolean disponivel;
     private String carga;
     private int quantidade;
