@@ -61,6 +61,9 @@ public class Main {
 				defTerminal(scanner);
 				break;
 			case 7:
+				commodities();
+				return;
+			case 8:
 				System.out.println("Encerrando o programa.");
 				return;
 			default:
@@ -90,7 +93,8 @@ public class Main {
 		System.out.println("4 - Transferir Vagões");
 		System.out.println("5 - Definir Viagem para Ponto de Interconexão");
 		System.out.println("6 - Definir Viagem para Terminal");
-		System.out.println("7 - Sair");
+		System.out.println("7 - Visualizar cargas desembarcadas");
+		System.out.println("8 - Sair");
 		System.out.println("Digite a opção desejada: ");
 	}
 
@@ -310,12 +314,12 @@ public class Main {
 		}
 	}
 
-	public String commodities(){
+	public static String commodities(){
 		String resposta = "";
 		Iterator<String> it = desembarcados.iterator();
 		while(it.hasNext()) {
 			String carga = it.next();
-			resposta += carga;
+			resposta += carga + ", ";
 		}
 		
 		return resposta;
